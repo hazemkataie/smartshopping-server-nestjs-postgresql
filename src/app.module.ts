@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Market } from './market/market.entity';
+import { Market } from './market/entities/market.entity';
 import { MarketModule } from './market/market.module';
+import { CategoryModule } from './category/category.module';
+import { Category } from './category/entities/category.entity';
+import { ProductModule } from './product/product.module';
+import { Product } from './product/entities/product.entity';
 
 @Module({
   imports: [
@@ -16,10 +18,10 @@ import { MarketModule } from './market/market.module';
       database: 'smartshopping',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,}),
-    TypeOrmModule.forFeature([Market]),
+    TypeOrmModule.forFeature([Market, Category, Product]),
     MarketModule,
+    CategoryModule,
+    ProductModule,
     ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
