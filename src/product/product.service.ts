@@ -1,53 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Product } from 'src/product/entities/product.entity';
-import { Market } from 'src/market/entities/market.entity';
-import { Category } from 'src/category/entities/category.entity';
+import { Product } from './entities/product.entity';
+import { Market } from '../market/entities/market.entity';
+import { Category } from '../category/entities/category.entity';
 
 @Injectable()
 export class ProductService {
+
   constructor(
     @InjectRepository(Product)
-    private productRepository: Repository<Product>,
+    private readonly productRepository: Repository<Product>,
     @InjectRepository(Market)
     private readonly marketRepository: Repository<Market>,
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
-  ) {}
+  ) { }
 
 
-  async create(createProductDto: CreateProductDto) {
-  const market = await this.marketRepository.findOne({ where: { id: createProductDto.marketId } });
-  const category = await this.categoryRepository.findOne({ where: { id: createProductDto.categoryId } });
-
-  const product = this.productRepository.create(
-    {
-      name: createProductDto.name,
-      isBought: createProductDto.isBought ?? false,
-      market,
-      category,
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    const { name, isBought, marketId, categoryId } = createProductDto;
+    const newProduct = new Product();
+    newProduct.name = name;
+    newProduct.isBought ? isBought : false; // Default to false if not provided
+    const market = await this.marketRepository.findOneBy({ id: marketId });
+    if (!market) {
+      throw new Error(`Market with ID ${marketId} not found`);
     }
-  );
-  return this.productRepository.save(product);
-}
-
-
-  findAll() {
-    return `This action returns all product`;
+    newProduct.market = market;
+    const category = await this.categoryRepository.findOneBy({ id: categoryId });
+    if (!category) {
+      throw new Error(`Category with ID ${categoryId} not found`);
+    }
+    newProduct.category = category;
+    return this.productRepository.save(newProduct);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+
+  async findAll(): Promise<Product[]> {
+    return this.productRepository.find();
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async findOne(id: number): Promise<Product> {
+    const product = await this.productRepository.findOneBy({ id });
+    if (!product) {
+      throw new Error(`Product with ID ${id} not found`);
+    }
+    return product;
   }
 }

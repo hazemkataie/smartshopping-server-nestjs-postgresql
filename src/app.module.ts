@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Market } from './market/entities/market.entity';
-import { MarketModule } from './market/market.module';
 import { CategoryModule } from './category/category.module';
-import { Category } from './category/entities/category.entity';
+import { MarketModule } from './market/market.module';
 import { ProductModule } from './product/product.module';
+import { Category } from './category/entities/category.entity';
+import { Market } from './market/entities/market.entity';
 import { Product } from './product/entities/product.entity';
 
 @Module({
@@ -17,11 +17,12 @@ import { Product } from './product/entities/product.entity';
       password: "272819",
       database: 'smartshopping',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,}),
+      synchronize: true,
+    }),
     TypeOrmModule.forFeature([Market, Category, Product]),
     MarketModule,
     CategoryModule,
     ProductModule,
-    ],
+  ],
 })
-export class AppModule {}
+export class AppModule { }
