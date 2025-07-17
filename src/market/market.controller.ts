@@ -3,7 +3,7 @@ import { MarketService } from './market.service';
 import { Market } from './entities/market.entity';
 import { CreateMarketDto } from './dto/create-market.dto';
 
-@Controller('markets')
+@Controller('market')
 export class MarketController {
     constructor(private readonly marketService: MarketService) { }
 

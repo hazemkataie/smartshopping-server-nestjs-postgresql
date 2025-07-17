@@ -23,7 +23,7 @@ export class ProductService {
     const { name, isBought, marketId, categoryId } = createProductDto;
     const newProduct = new Product();
     newProduct.name = name;
-    newProduct.isBought ? isBought : false; // Default to false if not provided
+    newProduct.isBought = isBought ?? false; // Default to false if not provided
     const market = await this.marketRepository.findOneBy({ id: marketId });
     if (!market) {
       throw new Error(`Market with ID ${marketId} not found`);
