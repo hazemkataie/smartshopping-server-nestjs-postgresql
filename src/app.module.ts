@@ -8,6 +8,7 @@ import { Category } from './category/entities/category.entity';
 import { Market } from './market/entities/market.entity';
 import { Product } from './product/entities/product.entity';
 import { User } from './user/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { User } from './user/entities/user.entity';
     CategoryModule,
     ProductModule,
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule { }
