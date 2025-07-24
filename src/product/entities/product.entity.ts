@@ -20,6 +20,6 @@ export class Product {
   @ManyToOne(() => Category, (category) => category.products, { eager: true })
   category: Category;
 
-  @ManyToOne(() => User, (user) => user.products)
+  @ManyToOne(() => User, (user) => user.products, { eager: true })
   user: User;
 }
