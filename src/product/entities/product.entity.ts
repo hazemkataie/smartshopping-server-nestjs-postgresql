@@ -6,20 +6,20 @@ import { User } from '../../user/entities/user.entity';
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column({ default: false })
-  isBought: boolean;
+  isBought!: boolean;
 
   @ManyToOne(() => Market, (market) => market.products, { eager: true })
-  market: Market;
+  market!: Market;
 
   @ManyToOne(() => Category, (category) => category.products, { eager: true })
-  category: Category;
+  category!: Category;
 
   @ManyToOne(() => User, (user) => user.products, { eager: true })
-  user: User;
+  user!: User;
 }

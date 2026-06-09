@@ -4,15 +4,15 @@ import { Product } from '../../product/entities/product.entity';
 @Entity()
 export class Category {
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
 
     @Column()
-    name: string;
+    name!: string;
 
     @CreateDateColumn()
-    createdAt: Date;
+    createdAt!: Date;
 
     //relation with Product entity
     @OneToMany(() => Product, (product) => product.category)
-    products: Product[];
+    products!: Product[];
 }

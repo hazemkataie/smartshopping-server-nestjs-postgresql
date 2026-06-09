@@ -73,12 +73,12 @@ export class AuthService {
     async login(email: string, password: string): Promise<{ token: string }> {
         const user = await this.userRepository.findOne({ where: { email } });
         if (!user) {
-            throw new UnauthorizedException('Kullanıcı bulunamadı');
+            throw new UnauthorizedException('User not found');
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            throw new UnauthorizedException('Şifre hatalı');
+            throw new UnauthorizedException('Invalid password');
         }
 
         const payload = { sub: user.id, email: user.email };

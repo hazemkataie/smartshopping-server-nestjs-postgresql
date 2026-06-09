@@ -1,6 +1,6 @@
 export class CreateProductDto {
-  name: string;
+  name!: string;
   isBought?: boolean;
-  marketId: number;
-  categoryId: number;
+  marketId!: number;
+  categoryId!: number;
 }
